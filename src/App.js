@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
+
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+import MenuBar from './components/Menubar';
+import { AuthProvider } from './context/auth';
+import 'semantic-ui-css/semantic.min.css';
 import './App.css';
+import AuthRoute from './util/AuthRoute';
+import SinglePost from './pages/SinglePost';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Container>
+          <MenuBar />
+          <Route exact path="/" component={Home} />
+          <AuthRoute exact path="/login" component={Login} />
+          <AuthRoute exact path="/register" component={Register} />
+          <Route exact path="/posts/:postId" component={SinglePost} />
+        </Container>
+      </Router>
+    </AuthProvider>
   );
 }
 
